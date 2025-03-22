@@ -9,21 +9,24 @@ function doGet() {
 
 // Función que busca el estudiante por su documento en todas las hojas
 function consultarEstudiante(documento) {
-  let estudianteEncontrado = null;
-  
+  Logger.log('Iniciando consulta para el documento: ' + documento);  // Log para ver si llega aquí
   // Recorre todas las hojas del documento
   for (let i = 0; i < hojas.length; i++) {
     const hoja = SpreadsheetApp.openById(sheetId).getSheetByName(hojas[i]);
     const data = hoja.getDataRange().getValues();  // Obtiene todos los datos de la hoja
 
+    Logger.log('Leyendo hoja: ' + hojas[i]);  // Log para saber qué hoja se está leyendo
+    Logger.log('Datos obtenidos: ' + JSON.stringify(data));  // Log para ver los datos obtenidos
+
     // Recorre las filas de la hoja buscando el número de documento
     for (let j = 1; j < data.length; j++) {  // Comienza en 1 para omitir la cabecera
       if (data[j][0] == documento) {  // Compara con la columna de documento (índice 0)
-        estudianteEncontrado = {
+        Logger.log('Estudiante encontrado: ' + JSON.stringify(data[j]));  // Log si se encuentra el estudiante
+        return {
           documento: data[j][0],
           estudiante: data[j][1],
           asignatura: data[j][22],
-          
+
           // Notas de trabajo en clase
           C1: data[j][2], DC1: data[j][23],
           C2: data[j][3], DC2: data[j][24],
@@ -33,34 +36,28 @@ function consultarEstudiante(documento) {
           C6: data[j][7], DC6: data[j][28],
           C7: data[j][8], DC7: data[j][29],
           C8: data[j][9], DC8: data[j][30],
-          
+
           // Notas de tareas
           T1: data[j][10], DT1: data[j][31],
           T2: data[j][11], DT2: data[j][32],
           T3: data[j][12], DT3: data[j][33],
           T4: data[j][13], DT4: data[j][34],
-          
+
           // Notas de quizzes
           Q1: data[j][15], DQ1: data[j][35],
           Q2: data[j][16], DQ2: data[j][36],
           Q3: data[j][17], DQ3: data[j][37],
           Q4: data[j][18], DQ4: data[j][38],
-          
+
           // Nota bimestral
           B: data[j][20], DB: data[j][39],
           FINAL: data[j][21], DF: data[j][40],
         };
-        break;
       }
     }
-    
-    if (estudianteEncontrado) break;
   }
 
-  if (!estudianteEncontrado) {
-    return 'Estudiante no encontrado';
-  }
-
-  return estudianteEncontrado;
+  Logger.log('Estudiante no encontrado');  // Log si no se encuentra el estudiante
+  return 'Estudiante no encontrado';  // Si no se encuentra el estudiante
 }
 
