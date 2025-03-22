@@ -9,6 +9,8 @@ function doGet() {
 
 // Función que busca el estudiante por su documento en todas las hojas
 function consultarEstudiante(documento) {
+  let estudianteEncontrado = null;
+  
   // Recorre todas las hojas del documento
   for (let i = 0; i < hojas.length; i++) {
     const hoja = SpreadsheetApp.openById(sheetId).getSheetByName(hojas[i]);
@@ -17,7 +19,7 @@ function consultarEstudiante(documento) {
     // Recorre las filas de la hoja buscando el número de documento
     for (let j = 1; j < data.length; j++) {  // Comienza en 1 para omitir la cabecera
       if (data[j][0] == documento) {  // Compara con la columna de documento (índice 0)
-        return {
+        estudianteEncontrado = {
           documento: data[j][0],
           estudiante: data[j][1],
           asignatura: data[j][22],
@@ -48,10 +50,17 @@ function consultarEstudiante(documento) {
           B: data[j][20], DB: data[j][39],
           FINAL: data[j][21], DF: data[j][40],
         };
+        break;
       }
     }
+    
+    if (estudianteEncontrado) break;
   }
+
   if (!estudianteEncontrado) {
     return 'Estudiante no encontrado';
+  }
+
+  return estudianteEncontrado;
 }
-}
+
