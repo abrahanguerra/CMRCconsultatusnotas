@@ -34,18 +34,6 @@
         font-weight: bold; /* Todo el membrete en negrita */
         margin: 0; /* Sin espacio adicional entre párrafos */
       }
-      #header .motto {
-        font-size: 18px;
-        color: #333;
-        margin-top: 5px;
-        font-weight: bold; /* Lema también en negrita */
-      }
-      #header img {
-        width: 80px;
-        height: auto;
-        display: block;
-        margin-bottom: 10px;
-      }
       #resultado {
         margin-top: 20px;
         padding: 10px;
@@ -71,101 +59,14 @@
         font-size: 14px;
         color: #888;
       }
-
-      /* Configuración para la impresión */
-      @media print {
-        body {
-          width: 100%;
-          font-size: 12px; /* Reducir el tamaño de fuente para que todo quepa en una página */
-          padding: 0;
-          margin: 0;
-        }
-
-        #resultado {
-          width: 100%;
-          font-size: 12px;
-          padding: 0;
-        }
-
-        /* Ajustes específicos para tamaño carta con márgenes reducidos */
-        @page {
-          size: letter;
-          margin-top: 10mm; /* Márgenes superiores reducidos */
-          margin-bottom: 10mm; /* Márgenes inferiores reducidos */
-          margin-left: 15mm; /* Márgenes laterales reducidos */
-          margin-right: 15mm; /* Márgenes laterales reducidos */
-        }
-
-        /* Asegurarse de que no haya escala que cause que el contenido sea más grande de lo que cabe */
-        html, body {
-          transform: none; /* Eliminar la escala */
-          width: 100%;
-          height: 100%;
-        }
-
-        /* Opcionalmente, ajustar márgenes si es necesario */
-        .section {
-          margin-bottom: 10px;
-        }
-
-        .footer {
-          margin-top: 20px;
-        }
-
-        /* Ajustar tamaño de las tablas para caber en una sola página */
-        .activity-table, .notes-table {
-          width: 100%;
-        }
-
-        .activity-table th, .activity-table td,
-        .notes-table th, .notes-table td {
-          padding: 6px; /* Reducir el padding de las celdas */
-        }
-
-        /* Ocultar el botón de impresión durante la impresión */
-        button {
-          display: none;
-        }
-      }
-
-      .activity-table {
-        width: 80%;
-        margin: 0 auto;
-        border-collapse: collapse;
-        text-align: left;
-      }
-
-      .activity-table th, .activity-table td {
-        padding: 12px;
-        border: 1px solid #ccc;
-      }
-
-      .activity-table th {
-        background-color: #f2f2f2;
-        text-align: center;
-      }
-
-      .description-cell {
-        width: 400px;
-        text-align: justify; /* Justificar texto de descripción */
-      }
-
-      .activity-cell, .note-cell {
-        width: 100px; /* Reducir el ancho de la columna de actividad y nota */
-        text-align: center; /* Centrar texto */
-      }
-
     </style>
   </head>
   <body>
     <div id="header">
-      <!-- Logo y membrete -->
       <img src="https://www.micole.net/imagenes/colegio/logo/700007153/maria-reina-del-carmelo_512.png" alt="Logo Colegio">
       <h1>Colegio Maria Reina Del Carmelo</h1>
       <p>"Para La Gloria De Dios, Mi Casa, Mi Corazón Y Mi Vida"</p>
-      <p>Profesor Abrahan Guerra Giordani</p>
-      <p>Docente de Matemáticas 7º y 8º y Física 9º, 10º y 11º</p>
-      <h2>CMRC 2025 - NOTAS</h2>
+      <h2>Consulta de NOTAS</h2>
     </div>
     
     <h3>Consulta de NOTAS del Estudiante</h3>
@@ -173,7 +74,7 @@
     <form id="form">
       <label for="documento">Número de Documento:</label>
       <input type="text" id="documento" name="documento" placeholder="Ingresa el documento" required>
-      <input type="button" value="Buscar" onclick="buscarEstudiante()">
+      <input type="button" value="Consultar" onclick="buscarEstudiante()">
     </form>
     
     <div id="resultado"></div>
@@ -195,4 +96,56 @@
               <p><strong>Asignatura:</strong> ${result.asignatura}</p>
 
               <div class="section">
-                <h3>TRABAJO
+                <h3>TRABAJO EN CLASES</h3>
+                <table class="notes-table">
+                  <thead>
+                    <tr>
+                      <th>ACTIVIDAD</th>
+                      <th>NOTA</th>
+                      <th>DESCRIPCIÓN</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>ACTIVIDAD 1</td>
+                      <td>${result.C1}</td>
+                      <td>${result.DC1}</td>
+                    </tr>
+                    <!-- Agregar más actividades según sea necesario -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="section">
+                <h3>TAREAS</h3>
+                <table class="notes-table">
+                  <thead>
+                    <tr>
+                      <th>TAREA</th>
+                      <th>NOTA</th>
+                      <th>DESCRIPCIÓN</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>TAREA 1</td>
+                      <td>${result.T1}</td>
+                      <td>${result.DT1}</td>
+                    </tr>
+                    <!-- Agregar más tareas según sea necesario -->
+                  </tbody>
+                </table>
+              </div>
+            `;
+            document.getElementById('resultado').innerHTML = htmlContent;
+          }
+        }).consultarEstudiante(documento);
+      }
+    </script>
+
+    <footer class="footer">
+      <p>Sistema creado por el Ingeniero Abrahan Guerra Giordani</p>
+    </footer>
+  </body>
+</html>
+
